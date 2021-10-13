@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const { checkAccountId, checkAccountPayload, checkAccountNameUnique } = require('./accounts-middleware')
 const Accounts = require('./accounts-model')
 router.get('/', (req, res, next) => {
   // DO YOUR MAGIC
@@ -9,7 +10,7 @@ router.get('/', (req, res, next) => {
   })
 })
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', checkAccountId, (req, res, next) => {
   const {id}= req.params
   // DO YOUR MAGIC
   Accounts.getById(id)
@@ -18,9 +19,17 @@ router.get('/:id', (req, res, next) => {
   })
 })
 
-// router.post('/', (req, res, next) => {
-//   // DO YOUR MAGIC
-// })
+router.post('/', checkAccountPayload, checkAccountNameUnique,(req, res, next) => {
+  const newAccount = req.body;
+  // DO YOUR MAGIC
+  Accounts.create(newAccount)
+  .then((account)=>{
+    res.status(201).json(account)
+  })
+  .catch(()=>{
+    res.status(500).json({message:"unable to add that user"})
+  })
+})
 
 // router.put('/:id', (req, res, next) => {
 //   // DO YOUR MAGIC
