@@ -1,4 +1,5 @@
 const db = require("../../data/db-config");
+const { accounts } = require("../../data/seeds/02-accounts");
 
 const getAll = () => {
   // DO YOUR MAGIC
@@ -25,7 +26,7 @@ const updateById = (id, { name, budget }) => {
     .where("id", id)
     .update({ name, budget })
     .then(() => {
-      getById(id);
+      return getById(id);
     });
 };
 

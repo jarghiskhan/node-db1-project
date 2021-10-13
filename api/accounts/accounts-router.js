@@ -3,7 +3,6 @@ const { checkAccountId, checkAccountPayload, checkAccountNameUnique } = require(
 const Accounts = require('./accounts-model')
 router.get('/', (req, res, next) => {
   // DO YOUR MAGIC
-  console.log("get running")
   Accounts.getAll()
   .then((account)=>{
     res.status(200).json(account)
