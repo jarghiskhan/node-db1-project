@@ -31,13 +31,24 @@ router.post('/', checkAccountPayload, checkAccountNameUnique,(req, res, next) =>
   })
 })
 
-// router.put('/:id', (req, res, next) => {
-//   // DO YOUR MAGIC
-// });
+router.put('/:id', checkAccountId, checkAccountPayload, (req, res, next) => {
+  // DO YOUR MAGIC
+  const {id} = req.params;
+  const changes = req.body;
+  Accounts.updateById(id, changes)
+  .then((account)=>{
+    res.status(200).json(account)
+  })
+});
 
-// router.delete('/:id', (req, res, next) => {
-//   // DO YOUR MAGIC
-// })
+router.delete('/:id', checkAccountId, (req, res, next) => {
+  // DO YOUR MAGIC
+  const {id} = req.params;
+  Accounts.deleteById(id)
+  .then(()=>{
+    res.status(200).json()
+  })
+})
 
 // router.use((err, req, res, next) => { // eslint-disable-line
 //   // DO YOUR MAGIC
